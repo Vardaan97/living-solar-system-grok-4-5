@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#05080f" />
+  <title>Living Solar System — Grok 4.5</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+</head>
+<body>
+  <div id="canvas-wrap"></div>
+  <div id="iss-label" class="iss-label">ISS</div>
+
+  <div class="hud">
+    <div class="top-bar">
+      <div class="brand">
+        Living Solar System
+        <span>Grok 4.5 benchmark build</span>
+      </div>
+      <div id="status-pill" class="status-pill">
+        <span class="dot"></span>
+        <span id="fps-text">— FPS</span>
+        <span id="mode-text">Solar</span>
+      </div>
+    </div>
+
+    <div id="data-banner" class="banner" role="status"></div>
+
+    <aside class="side-panel panel">
+      <section>
+        <h2>Navigation</h2>
+        <div class="row">
+          <button id="btn-earth" class="btn primary" type="button">Go to Earth</button>
+          <button id="btn-solar" class="btn" type="button">Solar System</button>
+        </div>
+      </section>
+
+      <section>
+        <h2>Time</h2>
+        <div class="row">
+          <button id="btn-play" class="btn" type="button">Pause</button>
+        </div>
+        <label class="field">
+          Time warp (solar only)
+          <input id="warp" type="range" min="0" max="6" step="1" value="0" />
+          <span id="warp-label">1×</span>
+        </label>
+        <p class="hint" id="warp-hint">Warp drives planetary motion. In Earth view, satellites &amp; flights stay on wall-clock UTC.</p>
+      </section>
+
+      <section>
+        <h2>Layers</h2>
+        <div class="row">
+          <label class="toggle"><input id="layer-starlink" type="checkbox" checked /> Starlink</label>
+          <label class="toggle"><input id="layer-gps" type="checkbox" checked /> GPS</label>
+          <label class="toggle"><input id="layer-oneweb" type="checkbox" checked /> OneWeb</label>
+          <label class="toggle"><input id="layer-flights" type="checkbox" checked /> Flights</label>
+          <label class="toggle"><input id="layer-orbits" type="checkbox" checked /> Orbit lines</label>
+          <label class="toggle"><input id="layer-labels" type="checkbox" checked /> Labels</label>
+        </div>
+        <label class="field">
+          Satellite count (Starlink)
+          <select id="sat-count">
+            <option value="500">500</option>
+            <option value="800" selected>800 (default)</option>
+            <option value="1500">1500</option>
+            <option value="3000">3000</option>
+            <option value="all">All (soft-cap 8000)</option>
+          </select>
+        </label>
+        <label class="field">
+          Find satellite
+          <input id="sat-search" type="search" placeholder="e.g. STARLINK-1234" autocomplete="off" />
+        </label>
+      </section>
+
+      <p class="hint">Planet sizes exaggerated for visibility (not to scale). Touch: one-finger orbit, pinch zoom, tap to select.</p>
+    </aside>
+
+    <div id="popup" class="popup panel" aria-live="polite">
+      <header>
+        <h3 id="popup-title">Object</h3>
+        <button id="popup-close" class="btn close" type="button" aria-label="Close">✕</button>
+      </header>
+      <dl id="popup-body"></dl>
+    </div>
+
+    <div class="credits">
+      Data: CelesTrak (TLEs) · ADS-B via adsb.lol / airplanes.live · ISS check: wheretheiss.at<br />
+      Rendering: Three.js · Propagation: satellite.js (SGP4) · Built by Cursor Grok 4.5
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
